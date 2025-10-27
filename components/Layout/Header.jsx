@@ -4,7 +4,7 @@ const Header = () => {
     return (
         <React.Fragment>
             <header>
-                <div class="logo">Copilot</div>
+                <div className="logo">Copilot</div>
                 <nav>
                     <a href="#">Features</a>
                     <a href="#">Solutions</a>

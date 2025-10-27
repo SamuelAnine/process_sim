@@ -1,6 +1,7 @@
 import React from "react"
 import "@/styles/globals.css"
 import Header from "@/components/Layout/Header"
+import Provider from "@/Session/Provider"
 
 const layout = ({children}) => {
     return (
@@ -8,7 +9,9 @@ const layout = ({children}) => {
             <html lang="en">
                 <body>
                     <Header />
-                    {children}
+                    <Provider>
+                        {children}
+                    </Provider>
                 </body>
             </html>
         </React.Fragment>

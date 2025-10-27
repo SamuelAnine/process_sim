@@ -2,7 +2,7 @@ body{
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     color: #111;
-    /* display: flex; */
+     /* display: flex;  */
     background: #fff;
 }
 
@@ -150,12 +150,12 @@ nav a{
     font-family: 'Arial', sans-serif;
 }
 
-.signin{
+body{
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 2rem);
-    margin-top: 2rem;
-    display: flex;
+    height: 100vh;
+    background: #fff;
 }
 
 .container{
@@ -167,6 +167,7 @@ nav a{
     width: 800px;
     max-width: 100%;
     min-height: 450px;
+    margin-top: 3rem;
     border: 1px solid #ccc;
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     overflow: hidden;
@@ -202,7 +203,7 @@ nav a{
     outline: none;
 }
 
-.form-container button{
+input[type="submit"]{
     border-radius: 25px;
     border: none;
     padding: 12px 45px;
@@ -214,7 +215,7 @@ nav a{
     transition: background 0.3s;
 }
 
-.form-container button:hover{
+input[type="submit"]:hover{
     background: #333;
 }
 
@@ -272,20 +273,21 @@ nav a{
 }
 
 .overlay-panel button{
-    background: transparent;
-    color: #fff;
-    border: 1px solid #fff;
+   background: #fff;
+    color: #000;
+    border: none;
     padding: 12px 45px;
     margin-top: 20px;
-    border-radius: 6px;
-    font-size: 14px;
+    border-radius: 25px;
+    font-size: 16px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background 0.5s;
 }
 
 .overlay-panel button:hover{
-    background: #111;
-    
+    background: transparent;
+    color: #fff;
+    outline: 1px solid #fff;
 }
 
 /* Toggle effecct*/
