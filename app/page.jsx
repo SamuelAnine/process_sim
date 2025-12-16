@@ -3,7 +3,7 @@ import React from "react"
 const page = () => {
     return (
         <React.Fragment>
-            <main className="dis">
+            <main className="home-layout">
 
             <section class="hero">
                 <h1>The platform service<br />businesses are built on</h1>

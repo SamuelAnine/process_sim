@@ -1,23 +1,34 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
 body{
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     color: #111;
-     /* display: flex;  */
+    /* display: flex;   */
     background: #fff;
+    height: 100%;
+    width: 100%;
+    padding: 0;
 }
 
-header{
+.home header{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 60px;
-    position: fixed;
     top: 0;
     left: 0;
     right: 0;
+    z-index: 1000;
+    background: #fff;
 }
 
-.dis{
+.home-layout{
     height: 100vh;
     justify-content: center;
     display: flex;
@@ -26,15 +37,17 @@ header{
     
 }
 
-.logo{
+.home .logo{
     font-size: 20px;
     font-weight: bold;
     display: flex;
     align-items: center;
     gap: 8px;
+    color: #000;
+    text-decoration: none;
 }
 
-nav{
+.home nav{
     display: flex;
     gap: 25px;
     align-items: center;
@@ -46,7 +59,7 @@ nav a{
     font-size: 14px;
 }
 
-.buttons{
+.home .buttons{
     display: flex;
     align-items: center;
     gap: 10px;
@@ -143,34 +156,30 @@ nav a{
 
 
 /* Sign in */
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-}
 
-body{
+
+.auth-body{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100vw;
     background: #fff;
+    position: relative;
+    margin: 0;
 }
 
 .container{
     background: #fff;
     border-radius: 25px;
     box-shadow: 0 8x 30px rgba(0,0,0,0.15);
-    position: relative;
-    overflow: hidden;
     width: 800px;
     max-width: 100%;
     min-height: 450px;
-    margin-top: 3rem;
     border: 1px solid #ccc;
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     overflow: hidden;
+    margin-top: -5rem;
 }
 
 .form-container{
@@ -290,7 +299,7 @@ input[type="submit"]:hover{
     outline: 1px solid #fff;
 }
 
-/* Toggle effecct*/
+Toggle effecct
 .container.right-panel-active .sign-in-container{
     transform: translateX(100%);
 }
@@ -317,4 +326,124 @@ input[type="submit"]:hover{
 
 .container:not(.right-panel-active) .overlay{
     transform: translateX(0);
+}
+
+
+
+
+
+/* === SIMULATOR === */
+.simulator-container {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    height: 100vh;
+    width: 100%;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding-top: 25px;
+}
+
+.palette {
+    width: 200px;
+    height: 600px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+.diagram {
+    flex: 1;
+    height: 600px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+}
+
+
+/* === MOBILE SCREEN=== */
+
+@media (max-width: 768px) {
+
+    /* HOME PAGE */
+    .home header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+
+    .home nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .home nav a {
+        padding: 10px 0;
+        text-align: center;
+    }
+
+    .home .buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .home .buttons a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 26px;
+    }
+
+    .ratings {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* AUTH PAGE */
+    .auth-body {
+        padding: 1rem;
+    }
+
+    .container {
+        min-height: auto;
+        margin-top: 0;
+    }
+
+    .overlay-container {
+        display: none; /*hide overlay*/
+    }
+
+    .sign-in-container,
+    .sign-up-container {
+        width: 100%;
+        position: relative;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+
+    .container.right-panel-active .sign-in-container,
+    .container.right-panel-active .sign-up-container {
+        transform: none;
+    }
+
+    /* SIMULATOR */
+    .simulator-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .palette {
+        width: 100%;
+        height: 200px;
+    }
+
+    .diagram {
+        width: 100%;
+        height: 400px;
+    }
 }

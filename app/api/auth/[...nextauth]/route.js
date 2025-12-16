@@ -35,46 +35,46 @@ export const authHandler = {
                 }
             }
         }),
-            // ...add more providers here
-            CredentialsProvider({
-                name: 'Credentials',
-                credentials: {},
-                async authorize(credentials, req) {
-                    try {
-                        await connectToDB()
+        // ...add more providers here
+        CredentialsProvider({
+            name: 'Credentials',
+            credentials: {},
+            async authorize(credentials, req) {
+                try {
+                    await connectToDB()
 
-                        const { email, password } = credentials;
+                    const { email, password } = credentials;
 
-                        const user = await User.findOne({ email: email });
+                    const user = await User.findOne({ email: email });
 
-                        if (user) {
-                            const passwordMatch = await bcrypt.compare(password, user.hashed_password)
+                    if (user) {
+                        const passwordMatch = await bcrypt.compare(password, user.hashed_password)
 
-                            if (passwordMatch) {
-                                console.log('password match')
-                                return user
-                            }
-                            else {
-                                console.log('Email and password does match')
-                                return null
-                            }
+                        if (passwordMatch) {
+                            console.log('password match')
+                            return user
                         }
                         else {
-                            console.log('User does not exist')
-                            console.log(email)
+                            console.log('Email and password does match')
                             return null
                         }
-                    } catch (error) {
-                        console.log('Auth error', error)
                     }
+                    else {
+                        console.log('User does not exist')
+                        console.log(email)
+                        return null
+                    }
+                } catch (error) {
+                    console.log('Auth error', error)
                 }
-            })       
+            }
+        })
     ],
     pages: {
         signIn: '/signin',
     },
     callbacks: {
-        async signIn({ account, profile}) {
+        async signIn({ account, profile }) {
             console.log('This is account', account)
             console.log('This is profile', profile)
 
@@ -108,7 +108,7 @@ export const authHandler = {
             }
             return session
         }
-    }    
+    }
 }
 
 const handler = NextAuth(authHandler)

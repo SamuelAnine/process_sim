@@ -10,11 +10,13 @@ const Signin = () => {
 
     const { data: session } = useSession();
     const userrole = session;
-    console.log(userrole)
+    console.log("This is session", session, userrole?.user?.name)
 
     const logon = async (e) => {
         e.preventDefault()
         setLoading(true)
+
+        console.log(userinfo)
 
         const { email, password } = userinfo
 
@@ -44,6 +46,14 @@ const Signin = () => {
             <button onClick={() => signIn('google')}>
                 Sign in Google
             </button>
+            <button onClick={() => Signin('twitter')}>
+                Sign in Twitter
+            </button>
+            <form onSubmit={logon}>
+                <input type="email" name="" id="" onChange={e => setUserInfo({...userinfo, email: e.target.value})} required placeholder="Enter email" />
+                <input type="password" name="" id="" onChange={e => setUserInfo({...userinfo, password: e.target.value})} required placeholder="Enter password" />
+                <input type="submit" value="Signin" />
+            </form>
         </React.Fragment>
     )
 }
