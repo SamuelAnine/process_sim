@@ -246,6 +246,40 @@ export default function ProcessDiagram() {
           $(go.TextBlock, { font: FONT, editable: true }).bindTwoWay('text')
         )
     );
+    
+    // Reboiler Template
+    diagram.nodeTemplateMap.add('Reboiler',
+      $(go.Node, 'Vertical', new go.Binding("location", "pos", go.Point.parse).makeTwoWay(
+        go.Point.stringify
+      ))
+        .add(
+          $(go.Panel, 'Spot')
+            .add(
+              $(go.Shape, 'Circle', {
+                desiredSize: new go.Size(45, 45),
+                fill: makeMetalBrush(go),
+                strokeWidth: 1,
+                portId: "",
+                fromLinkable: true,
+                toLinkable: true
+              }),
+              // Heating coils inside the reboiler
+              $(go.Shape, {
+                geometryString: 'M10 22 Q15 17 20 22 T30 22 Q33 17 35 22',
+                strokeWidth: 1.5,
+                stroke: 'black',
+                fill: null
+              }),
+              $(go.Shape, {
+                geometryString: 'M10 28 Q15 23 20 28 T30 28 Q33 23 35 28',
+                strokeWidth: 1.5,
+                stroke: 'black',
+                fill: null
+              })
+            ),
+          $(go.TextBlock, { font: FONT, editable: true }).bindTwoWay('text')
+        )
+    );
 
     // --- LINKS ---
     diagram.linkTemplate = $(go.Link, {

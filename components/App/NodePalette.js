@@ -117,7 +117,26 @@ const simpleNodeStructure = (goClass, shapeName, text) => {
                                     .add(
                                         $(goClass.Shape, 'Circle', { desiredSize: new go.Size(32, 32), fill: makeMetalBrush(goClass), strokeWidth: 1, portId: '' }),
                                         $(goClass.Shape, { geometryString: 'F M0 36 L0 40 4 40 0 40 20 16 20 24 40 0', desiredSize: new go.Size(35, 35), strokeWidth: 1, fill: makeMetalBrush(goClass) })
-                                    ) : null,
+                                    ) :
+                                // Reboiler body
+                                shapeName === 'Reboiler' ?
+                                    $(goClass.Panel, 'Spot')
+                                        .add(
+                                            $(goClass.Shape, 'Circle', { desiredSize: new go.Size(40, 40), fill: makeMetalBrush(goClass), strokeWidth: 1, portId: '' }),
+                                            // Heating coils inside
+                                            $(goClass.Shape, {
+                                                geometryString: 'M10 22 Q15 17 20 22 T30 22 Q33 17 35 22',
+                                                strokeWidth: 1.5,
+                                                stroke: 'black',
+                                                fill: null
+                                            }),
+                                            $(goClass.Shape, {
+                                                geometryString: 'M10 28 Q15 23 20 28 T30 28 Q33 23 35 28',
+                                                strokeWidth: 1.5,
+                                                stroke: 'black',
+                                                fill: null
+                                            })
+                                        ) : null,
 
                 ),
             $(goClass.TextBlock, text, { margin: 3, font: FONT })
@@ -170,6 +189,8 @@ export default function NodePalette() {
         // 5. Condenser Template
         palette.nodeTemplateMap.add('Condenser', simpleNodeStructure(go, 'Condenser', 'Condenser'));
 
+         // 6. Reboiler Template
+        palette.nodeTemplateMap.add('Reboiler', simpleNodeStructure(go, 'Reboiler', 'Reboiler'));
 
 
         // Palette model
@@ -179,6 +200,7 @@ export default function NodePalette() {
             { key: 'condenser1', category: 'Condenser', text: 'E-101' },
             { key: 'pump1', category: 'Pump', text: 'P-101' },
             { key: 'valve1', category: 'Valve', text: 'V-101' },
+             { key: 'reboiler', category: 'Reboiler', text: 'R-101' },
         ]);
 
         return () => (palette.div = null);
