@@ -31,7 +31,7 @@ export const POST = async (req) => {
 
         const newUser = new User({ name, username, email, hashed_password, profile, roledesc});
 
-        newUser.save();
+        await newUser.save();
 
         return new Response(JSON.stringify({message: 'Signup successful! Continue to signin'}), { status: 201 })
 
