@@ -10,7 +10,7 @@ export const authHandler = {
     session: {
         strategy: "jwt"
     },
-    secret: process.env.NEXT_AUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     // Configure one more authentication providers
     providers: [
         GoogleProvider({
