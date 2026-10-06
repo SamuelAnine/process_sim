@@ -3,9 +3,11 @@ import NodePalette from "@/components/App/NodePalette";
 
 export default function SimilatorPage() {
     return (
-        <main className="simulator-container">
-            <NodePalette />
-            <ProcessDiagram />
+        <main className="simulator-wrapper">
+            <div className="simulator-container">
+                <NodePalette />
+                <ProcessDiagram />
+            </div>
         </main>
     );
 }

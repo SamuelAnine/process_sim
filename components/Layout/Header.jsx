@@ -1,96 +1,132 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
+  const pathname = usePathname();
 
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) setMenuOpen(false);
     };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    const closeMenu = () => {
-        setMenuOpen(false);
-    };
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : 'unset';
+  }, [menuOpen]);
 
-    // Close menu when screen resizes to desktop
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth > 768) {
-                setMenuOpen(false);
-            }
-        };
+  const isInner = pathname !== '/' && !pathname.startsWith('/signup');
+  const firstName = session?.user?.name?.split(' ')[0] || '';
 
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+  const innerLinks = [
+    { href: '/simple', label: 'Simple Mode' },
+    { href: '/simulator', label: 'Engineering Workspace' },
+    { href: '/learning-hub', label: 'Learning Hub' },
+    { href: '/guide', label: 'Help' },
+  ].filter(link => link.href !== pathname);
 
-    // Prevent body scroll when menu is open
-    useEffect(() => {
-        if (menuOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-    }, [menuOpen]);
+  const landingLinks = [
+    { href: '/#modes', label: 'Modes' },
+    { href: '/#process', label: 'How It Works' },
+    { href: '/#why', label: 'Why BioSim' },
+    { href: '/learning-hub', label: 'Learning Hub' },
+    { href: '/guide', label: 'Guide' },
+  ];
 
-    return (
-        <React.Fragment>
-            <div className="home">
-                <header>
-                    <a href="/" className="logo" style={{fontWeight: '600', letterSpacing: '1.2px'}}>
-                        PFD <span style={{fontWeight: '400'}}>DESIGNER</span>
-                    </a>
+  const links = isInner ? innerLinks : landingLinks;
 
-                    {/* Hamburger Menu Toggle (visible on mobile only) */}
-                    <div 
-                        className={`menu-toggle ${menuOpen ? 'active' : ''}`}
-                        onClick={toggleMenu}
-                        aria-label="Toggle menu"
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+  return (
+    <header className="bs-nav">
 
-                    {/* Navigation Menu */}
-                    <nav className={menuOpen ? 'active' : ''}>
-                        <a href="#canvas" onClick={closeMenu}>Canvas</a>
-                        <a href="#symbols" onClick={closeMenu}>Symbols</a>
-                        <a href="#guide" onClick={closeMenu}>Guide</a>
-                        <a href="#resources" onClick={closeMenu}>Resources</a>
-                        <a href="#pricing" onClick={closeMenu}>Pricing</a>
-                        
-                        {/* Buttons inside nav (only visible on mobile) */}
-                        <div className="buttons">
-                            <a href="#contact" className="btn btn-outline" onClick={closeMenu}>
-                                Contact sales
-                            </a>
-                            <a href="/signup" className="btn btn-outline" onClick={closeMenu}>
-                                Log in
-                            </a>
-                            <a href="#trial" className="btn btn-dark" onClick={closeMenu}>
-                                Start trial
-                            </a>
-                        </div>
-                    </nav>
+      <a href="/" className="bs-nav-logo">
+        Bio<span className="bs-accent">Sim</span>
+      </a>
 
-                    {/* Desktop Buttons (hidden on mobile) */}
-                    <div className="buttons">
-                        <a href="#contact" className="btn btn-outline">Contact sales</a>
-                        <a href="/signup" className="btn btn-outline">Log in</a>
-                        <a href="#trial" className="btn btn-dark">Start trial</a>
-                    </div>
+      {/* Hamburger — mobile only */}
+      <button
+        className={`bs-hamburger ${menuOpen ? 'bs-hamburger-active' : ''}`}
+        onClick={toggleMenu}
+        aria-label="Toggle menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-                    {/* Overlay background (only on mobile when menu open) */}
-                    <div 
-                        className={`nav-overlay ${menuOpen ? 'active' : ''}`}
-                        onClick={closeMenu}
-                    ></div>
-                </header>
+      {/* Nav links */}
+      <nav className={`bs-nav-links ${menuOpen ? 'bs-nav-open' : ''}`}>
+        {links.map(link => (
+          <a key={link.href} href={link.href} onClick={closeMenu}>
+            {link.label}
+          </a>
+        ))}
+
+        {/* Mobile only buttons */}
+        <div className="bs-nav-mobile-btns">
+          {isInner && session ? (
+            <>
+              <div className="bs-nav-mobile-user">
+                <div className="bs-nav-avatar-sm">
+                  {firstName.charAt(0).toUpperCase()}
+                </div>
+                <span>{firstName}</span>
+              </div>
+              <button
+                className="bs-nav-btn-out"
+                onClick={() => { signOut({ callbackUrl: '/' }); closeMenu(); }}
+              >
+                Sign Out
+              </button>
+            </>
+          ) : !isInner ? (
+            <>
+              <a href="/signup" className="bs-nav-btn-out" onClick={closeMenu}>Log in</a>
+              <a href="/signup" className="bs-nav-btn-solid" onClick={closeMenu}>Get Started</a>
+            </>
+          ) : null}
+        </div>
+      </nav>
+
+      {/* Desktop right side */}
+      <div className="bs-nav-btns">
+        {isInner && session ? (
+          <div className="bs-nav-user">
+            <div className="bs-nav-avatar">
+              {firstName.charAt(0).toUpperCase()}
             </div>
-        </React.Fragment>
-    );
+            <span className="bs-nav-username">{firstName}</span>
+            <button
+              className="bs-nav-signout"
+              onClick={() => signOut({ callbackUrl: '/' })}
+            >
+              Sign Out
+            </button>
+          </div>
+        ) : !isInner ? (
+          <>
+            <a href="/signup" className="bs-nav-btn-out">Log in</a>
+            <a href="/signup" className="bs-nav-btn-solid">Get Started</a>
+          </>
+        ) : null}
+      </div>
+
+      {/* Mobile overlay */}
+      <div
+        className={`bs-nav-overlay ${menuOpen ? 'bs-nav-overlay-active' : ''}`}
+        onClick={closeMenu}
+      ></div>
+
+    </header>
+  );
 };
 
 export default Header;
